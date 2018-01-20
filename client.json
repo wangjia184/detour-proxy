@@ -1,0 +1,8 @@
+{
+	"role" : "client",
+	"socksPort" : 1080,
+	"httpPort" : 8888,
+	"url" : "wss://xxx.com/api/stream/",
+	"gfwListUrl" : "https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt",
+	"smartConnectTimeout" : 3
+}

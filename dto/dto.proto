@@ -1,0 +1,37 @@
+syntax = "proto3";
+package dto;
+
+option csharp_namespace = "DetourProxy.DTO";
+
+enum Type {
+   UNSPECIFIC = 0;
+   TCP_CONNECT = 1;
+   TCP_CONNECTION_ESTABLISHED = 2;
+   TCP_CONNECTION_FAILED = 3;
+   TCP_CONNECTION_CLOSED = 4;
+   INBOUND_DATA = 5;
+   OUTBOUND_DATA = 6;
+}
+
+enum Mode {
+	NONE    = 0;
+	LZFSE   = 1;
+}
+
+
+message MessageHeader {
+  Type type = 1;
+  int64 connectionID = 2;  // connection id
+  Mode mode = 3;   // encoding mode - compression or encryption
+  int32  length = 4;         // payload length
+}
+
+
+message Payload {
+  string address = 1;      // FQDN or IP of the destination to connect
+  int32  port = 2;         // destination port for connection
+  bytes  data = 3;         // data
+  string errorMessage = 4;
+}
+
+

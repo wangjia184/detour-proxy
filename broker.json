@@ -1,0 +1,4 @@
+{
+	"role" : "broker",
+	"httpPort" : 8080
+}
