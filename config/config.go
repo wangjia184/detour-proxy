@@ -11,12 +11,13 @@ const RoleBroker string = "broker"
 const RoleServer string = "server"
 
 type Configuration struct {
-	Role                string `json:"role"`
-	HttpPort            int    `json:"httpPort"`
-	SocksPort           int    `json:"socksPort"`
-	Url                 string `json:"url"`
-	GfwListUrl          string `json:"gfwListUrl"`
-	SmartConnectTimeout int    `json:"smartConnectTimeout"`
+	Role                string   `json:"role"`
+	HttpPort            int      `json:"httpPort"`
+	SocksPort           int      `json:"socksPort"`
+	Url                 string   `json:"url"`
+	GfwListUrl          string   `json:"gfwListUrl"`
+	SmartConnectTimeout int      `json:"smartConnectTimeout"`
+	InaccessibleDomains []string `json:"inaccessibleDomains"`
 }
 
 var config Configuration
@@ -83,4 +84,8 @@ func GetGfwListUrl() string {
 
 func GetSmartConnectTimeout() int64 {
 	return int64(config.SmartConnectTimeout)
+}
+
+func GetInaccessibleDomains() []string {
+	return config.InaccessibleDomains
 }
