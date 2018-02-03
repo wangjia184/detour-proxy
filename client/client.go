@@ -35,6 +35,13 @@ func Run(httpPort uint16, socksPort uint16, uri string) error {
 		mutex:               sync.RWMutex{},
 	}
 
+	domains := config.GetInaccessibleDomains()
+	for _, domain := range domains {
+		if len(domain) > 0 {
+			this.inaccessibleHostMap[strings.ToLower(domain)] = true
+		}
+	}
+
 	if strings.LastIndex(uri, "?") > 0 {
 		uri += "&"
 	} else {
@@ -109,7 +116,19 @@ func (this *ProxyClient) dial(network, address string) (net.Conn, error) {
 	needProxy := (func() bool {
 		this.mutex.RLock()
 		defer this.mutex.RUnlock()
-		return this.inaccessibleHostMap[host]
+
+		segs := strings.Split(host, ".")
+		if len(segs) > 1 {
+			domain := strings.ToLower(segs[len(segs)-1])
+			for i := 1; i < len(segs); i++ {
+				domain = strings.ToLower(segs[len(segs)-1-i]) + "." + domain
+				if this.inaccessibleHostMap[domain] {
+					return true
+				}
+			}
+		}
+
+		return false
 	})()
 	if !needProxy {
 		needProxy = this.isBlockedByGFW(host)
